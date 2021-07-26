@@ -1,5 +1,12 @@
 # RSA-Complexidade-Algoritmos
 
+
+O projeto pode ser rodado com o comando:
+
+```
+$ cargo run
+```
+
 Trabalho:
 Implementar um programa para criptografia e descriptografia de um arquivo usando o algoritmo
 RSA. Implementar um algoritmo de força bruta para quebra da chave criptográfica.
