@@ -1,8 +1,13 @@
 [package]
-name = "trab_cal_criptografia_descriptografia_rsa"
+name = "rsa"
 version = "0.1.0"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+
+[lib]
+name = "iota"
+path = "src/rsa/lib.rs"
