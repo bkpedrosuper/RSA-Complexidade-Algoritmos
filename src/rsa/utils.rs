@@ -1,63 +1,76 @@
 
+// use num_bigint::{BigInt, BigUint};
+// use num_bigint::ToBigInt;
+// use num_traits::{One, Zero};
 
-pub fn inv_mod(a: i64, m: i64) -> Option<i64> {
-    let gcd = gcd(a, m);
-    match gcd.g {
-        1 => Some((gcd.x % m + m) % m),
-        _ => None,
-    }
-}
+// pub fn fast_exp(a: BigInt, e: BigInt, m: BigInt) -> BigInt {
+//     let mut a = &a.clone();
+//     let mut e = e.clone();
+//     let m = m.clone();
 
-pub fn gcd(a: i64, b: i64) -> GcdResult {
-    match b {
-        0 => GcdResult::new(1, 0, a),
-        b => {
-            let res = gcd(b, a % b);
-            GcdResult::new(res.y, res.x-res.y*(a/b), res.g)
-        }
-    }
-}
+//     let mut res: BigInt = One::one();
+//     a %= m.clone();
+//     while e >= One::one() {
+//         let aaa = e.to_biguint().unwrap();
+//         let asdf: BigUint = One::one();
+//         let perdemo = aaa & asdf;
+//         if perdemo.is_one() {
+//             res = m.clone() + res * a % m.clone();
+//         }
+//         a = a.clone() * a.clone() % m;
+//         e >>= 1;
+//     }
+//     res
+// }
 
-#[derive(Debug)]
-pub struct GcdResult {
-    x: i64,
-    y: i64,
-    g: i64,
-}
+// pub fn  inv_mod(a: BigInt, m: BigInt) -> Option<BigInt> {
+//     let gcd = gcd(&a, &m);
+//     let um: BigInt = One::one();
+//     if gcd.g == um {
+//         return Some((gcd.x % m.clone() + m.clone()) % m);
+//     }
+//     None
+// }
 
-impl GcdResult {
-    pub fn new(x: i64, y: i64, g: i64) -> GcdResult {
-        GcdResult{ 
-            x: x,
-            y: y,
-            g: g,
-        }
-    }
-}
+// pub fn gcd(a: &BigInt, b: &BigInt) -> GcdResult {
+//     let zero: BigInt = Zero::zero();
+//     let um: BigInt = One::one();
+//     if b.clone() == zero {
+//         return GcdResult::new(&um, &zero, a);
+//     }
+//     let res = gcd(b, &(a % b));
+//     GcdResult::new(&res.y, &(res.x-res.y.clone()*(a/b)), &res.g)
+// }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+// #[derive(Debug)]
+// pub struct GcdResult {
+//     x: BigInt,
+//     y: BigInt,
+//     g: BigInt,
+// }
 
-    #[test]
-    fn inverse_modulus_test() {
-        assert_eq!(
-            match inv_mod(3, 26) {
-                None => -1,
-                Some(n) => n,
-        }, 9);
+// impl GcdResult {
+//     pub fn new(x: &BigInt, y: &BigInt, g: &BigInt) -> GcdResult {
+//         GcdResult{ 
+//             x: x.clone(),
+//             y: y.clone(),
+//             g: g.clone(),
+//         }
+//     }
+// }
 
-        assert_eq!(
-            match inv_mod(6, 34) {
-                None => -1,
-                Some(n) => n,
-        }, -1);
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
 
-        assert_eq!(
-            match inv_mod(1593, 4265) {
-                None => -1,
-                Some(n) => n,
-        }, 1087);
-    }
+//     #[test]
+//     fn inverse_modulus_test() {
+//         assert_eq!(inv_mod(3.to_bigint().unwrap(), 26.to_bigint().unwrap()), Some(9.to_bigint().unwrap()));
 
-}
+//         assert_eq!(inv_mod(6.to_bigint().unwrap(), 24.to_bigint().unwrap()), None);
+
+//         assert_eq!(inv_mod(1593.to_bigint().unwrap(), 4265.to_bigint().unwrap()), Some(1087.to_bigint().unwrap()));
+//     }
+
+
+// }

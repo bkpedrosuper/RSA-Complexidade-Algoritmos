@@ -1,4 +1,5 @@
 
 pub fn get_prime() -> u64 {
-    7
+    let a = 7;
+    a
 }
