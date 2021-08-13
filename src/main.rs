@@ -1,8 +1,8 @@
 
-// extern crate RSA;
+extern crate rsa;
 
-mod utils;
-mod prime_generator;
+use rsa::utils;
+use rsa::prime_generator;
 
 fn main() {
 
@@ -12,6 +12,6 @@ fn main() {
         Some(n) => println!("inv mod = {}", n)
     }
 
-    println!("{}", prime_generator::get_prime());
+    // println!("{}", prime_generator::get_prime());
 
 }
