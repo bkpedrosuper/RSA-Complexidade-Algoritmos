@@ -1,4 +1,83 @@
 
+
+use rug::Integer;
+
+pub fn fast_exp(base: Integer, e: Integer, m: &Integer) -> Integer {
+    let zero: Integer = Integer::from(0);
+    let one: Integer = Integer::from(1);
+
+    let mut base = base.clone();
+    let mut e = e.clone();
+
+    let mut res: Integer = Integer::from(1);
+    base %= m;
+    while e >= one {
+        if Integer::from(&e & &one) == zero {
+            res = res * &base % m;
+        }
+        base = Integer::from(&base * &base) % m;
+        e /= Integer::from(2);
+        println!("{}", res);
+    }
+    res
+}
+
+pub fn  inv_mod(a: Integer, m: Integer) -> Option<Integer> {
+    let one: Integer = Integer::from(1);
+    let gcd = gcd(&a, &m);
+    if gcd.g != one {
+        return None;
+    }
+    Some((gcd.x % m.clone() + m.clone()) % m)
+}
+
+pub fn gcd(a: &Integer, b: &Integer) -> GcdResult {
+    let zero: Integer = Integer::from(0);
+    let um: Integer = Integer::from(1);
+    if b.clone() == zero {
+        return GcdResult::new(&um, &zero, a);
+    }
+    let res = gcd(b, &Integer::from(a % b));
+    GcdResult::new(&res.y.clone(), &Integer::from(res.x-res.y*Integer::from(a/b)), &res.g)
+}
+
+#[derive(Debug)]
+pub struct GcdResult {
+    x: Integer,
+    y: Integer,
+    g: Integer,
+}
+
+impl GcdResult {
+    pub fn new(x: &Integer, y: &Integer, g: &Integer) -> GcdResult {
+        GcdResult{ 
+            x: x.clone(),
+            y: y.clone(),
+            g: g.clone(),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn inverse_modulus_test() {
+        assert_eq!(inv_mod(Integer::from(3), Integer::from(26)), Some(Integer::from(9)));
+
+        assert_eq!(inv_mod(Integer::from(6), Integer::from(24)), None);
+
+        assert_eq!(inv_mod(Integer::from(1593), Integer::from(4265)), Some(Integer::from(1087)));
+    }
+
+    #[test]
+    fn fast_exp_test() {
+        assert_eq!(fast_exp(Integer::from(2), Integer::from(100), &Integer::from(1000000007)), Integer::from(976371285));
+    }
+}
+
+
 // use num_bigint::{BigInt, BigUint};
 // use num_bigint::ToBigInt;
 // use num_traits::{One, Zero};
