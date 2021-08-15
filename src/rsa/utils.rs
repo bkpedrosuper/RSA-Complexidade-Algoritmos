@@ -2,6 +2,20 @@
 
 use rug::Integer;
 
+pub fn check_composite(n: &Integer, a: Integer, d: Integer, s: u128) -> bool {
+    let mut x = fast_exp(a, d, &n);
+    if x == 1 || x == Integer::from(n - 1) {
+        return false;
+    }
+    for _ in 1..s {
+        x = Integer::from(&x * &x) % n;
+        if x == Integer::from(n - 1) {
+            return false;
+        }
+    }
+    true
+}
+
 pub fn fast_exp(base: Integer, e: Integer, m: &Integer) -> Integer {
     let zero: Integer = Integer::from(0);
     let one: Integer = Integer::from(1);
@@ -11,13 +25,12 @@ pub fn fast_exp(base: Integer, e: Integer, m: &Integer) -> Integer {
 
     let mut res: Integer = Integer::from(1);
     base %= m;
-    while e >= one {
-        if Integer::from(&e & &one) == zero {
-            res = res * &base % m;
+    while e != 0 {
+        if Integer::from(&e & &one) != zero {
+            res = (res * &base) % m;
         }
         base = Integer::from(&base * &base) % m;
         e /= Integer::from(2);
-        println!("{}", res);
     }
     res
 }

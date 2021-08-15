@@ -13,10 +13,6 @@ fn main() {
     let res = utils::fast_exp(Integer::from(2), Integer::from(100), &Integer::from(1000000007));
     
     println!("{}", res);
-    // match res {
-    //     None => println!("Não existe"),
-    //     Some(n) => println!("inv mod = {}", n)
-    // }
 
     println!("{}", prime_generator::get_prime());
 
