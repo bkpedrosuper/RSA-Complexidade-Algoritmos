@@ -1,10 +1,19 @@
 
+use std::time::{SystemTime, UNIX_EPOCH};
 use rug::Integer;
+use rug::rand::{RandState};
+use rug::Assign;
 use super::utils;
 
-pub fn get_prime() -> u64 {
-    let a = 7;
-    a
+pub fn get_prime(size: u32) -> Integer {
+    let mut rand = RandState::new();
+    let seed = Integer::from(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
+    rand.seed(&seed);
+    let mut i = Integer::new();
+    while !miller_rabin(i.clone()) {
+        i.assign(Integer::random_bits(size, &mut rand));
+    }
+    i
 }
 
 pub fn miller_rabin(n: Integer) -> bool {
@@ -39,14 +48,14 @@ mod tests {
 
     #[test]
     fn should_be_prime() {
-        assert_eq!(miller_rabin(Integer::from(2)), true);
-        assert_eq!(miller_rabin(Integer::from(1000000007)), true);
+        assert!(miller_rabin(Integer::from(2)));
+        assert!(miller_rabin(Integer::from(1000000007)));
     }
 
     #[test]
     fn shouldnt_be_prime() {
-        assert_eq!(miller_rabin(Integer::from(6)), false);
-        assert_eq!(miller_rabin(Integer::from(2000000009)), false);    
+        assert!(!miller_rabin(Integer::from(6)));
+        assert!(!miller_rabin(Integer::from(2000000009)));    
     }
 
 }

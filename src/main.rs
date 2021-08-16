@@ -14,6 +14,6 @@ fn main() {
     
     println!("{}", res);
 
-    println!("{}", prime_generator::get_prime());
+    println!("{}", prime_generator::get_prime(128));
 
 }
