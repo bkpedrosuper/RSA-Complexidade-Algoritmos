@@ -69,6 +69,10 @@ impl GcdResult {
             g: g.clone(),
         }
     }
+
+    pub fn x(self) -> Integer {
+        self.x
+    }
 }
 
 #[cfg(test)]

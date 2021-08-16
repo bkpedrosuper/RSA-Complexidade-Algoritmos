@@ -7,7 +7,7 @@ use super::utils;
 
 pub fn get_prime(size: u32) -> Integer {
     let mut rand = RandState::new();
-    let seed = Integer::from(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
+    let seed = Integer::from(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_micros());
     rand.seed(&seed);
     let mut i = Integer::new();
     while !miller_rabin(i.clone()) {
@@ -56,6 +56,11 @@ mod tests {
     fn shouldnt_be_prime() {
         assert!(!miller_rabin(Integer::from(6)));
         assert!(!miller_rabin(Integer::from(2000000009)));    
+    }
+
+    #[test]
+    fn two_get_primes_shouldnt_be_eq() {
+        assert_ne!(get_prime(128), get_prime(128));
     }
 
 }

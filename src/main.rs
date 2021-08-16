@@ -4,6 +4,7 @@ extern crate rsa;
 use rug::Integer;
 use rsa::utils;
 use rsa::prime_generator;
+use rsa::key_generator;
 
 fn main() {
 
@@ -15,5 +16,7 @@ fn main() {
     println!("{}", res);
 
     println!("{}", prime_generator::get_prime(128));
+
+    println!("{:?}", key_generator::KeyGenerator::new(128));
 
 }
