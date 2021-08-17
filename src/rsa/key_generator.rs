@@ -53,3 +53,39 @@ impl KeyGenerator {
         &self.private_key
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use super::utils;
+
+    #[test]
+    fn encryption_256_test() {
+        let key_generator = KeyGenerator::new(256);
+
+        let enc = utils::fast_exp(&Integer::from(7), key_generator.get_public_key2(), key_generator.get_public_key1());
+        let dec = utils::fast_exp(&enc, key_generator.get_private_key(), key_generator.get_public_key1());
+
+        assert_eq!(7, dec);
+    }
+
+    #[test]
+    fn encryption_512_test() {
+        let key_generator = KeyGenerator::new(512);
+
+        let enc = utils::fast_exp(&Integer::from(77), key_generator.get_public_key2(), key_generator.get_public_key1());
+        let dec = utils::fast_exp(&enc, key_generator.get_private_key(), key_generator.get_public_key1());
+
+        assert_eq!(77, dec);
+    }
+
+    #[test]
+    fn encryption_1024_test() {
+        let key_generator = KeyGenerator::new(1024);
+
+        let enc = utils::fast_exp(&Integer::from(777), key_generator.get_public_key2(), key_generator.get_public_key1());
+        let dec = utils::fast_exp(&enc, key_generator.get_private_key(), key_generator.get_public_key1());
+
+        assert_eq!(777, dec);
+    }
+}
