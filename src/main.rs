@@ -1,22 +1,24 @@
 
 extern crate rsa;
 
-use rug::Integer;
-use rsa::utils;
-use rsa::prime_generator;
 use rsa::key_generator;
+use rsa::encoder;
+use std::fs;
 
 fn main() {
 
-    let res = 2 * 3 % 2;
-    println!("{}", res);
+    let contents = fs::read_to_string("entrada").expect("Something went wrong while opening the file");
 
-    let res = utils::fast_exp(Integer::from(2), Integer::from(100), &Integer::from(1000000007));
+    let key_generator = key_generator::KeyGenerator::new(256);
+    println!("{:?}", key_generator);
+
+    let enc = encoder::encrypt(contents, key_generator.get_public_key2(), key_generator.get_public_key1());
     
-    println!("{}", res);
+    fs::write("encriptado", format!("{:?}", enc.clone()));
 
-    println!("{}", prime_generator::get_prime(128));
+    let dec = encoder::decrypt(&enc, key_generator.get_private_key(), key_generator.get_public_key1());
+    println!("{}", dec);
 
-    println!("{:?}", key_generator::KeyGenerator::new(128));
+    fs::write("decriptado", dec).expect("Something went wrong while opening the file");
 
 }
