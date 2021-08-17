@@ -8,6 +8,9 @@ pub struct KeyGenerator {
     public_key1: Integer,
     public_key2: Integer,
     private_key: Integer,
+    q: Integer,
+    p: Integer,
+    totn: Integer,
 }
 
 impl KeyGenerator {
@@ -15,11 +18,15 @@ impl KeyGenerator {
         let mut public_key1;
         let mut public_key2;
         let mut private_key;
+        let mut p;
+        let mut q;
+        let mut totn;
         'outer: loop {
-            let p = prime_generator::get_prime(size/2);
-            let q = prime_generator::get_prime(size/2);
-            let totn = Integer::from(&p - 1) * Integer::from(&q - 1);
-            public_key1 = Integer::from(p * q);
+            p = prime_generator::get_prime(size/2);
+            q = prime_generator::get_prime(size/2);
+            totn = Integer::from(&p - 1) * Integer::from(&q - 1);
+            println!("{}\n{}", p, q);
+            public_key1 = Integer::from(&p * &q);
             
             public_key2 = prime_generator::get_prime_max(&public_key1);
 
@@ -30,14 +37,18 @@ impl KeyGenerator {
                 None => continue 'outer,
             }
 
-            if (Integer::from(&public_key2 * &private_key) % totn) == 1 {
+            if (Integer::from(&public_key2 * &private_key) % &totn) == 1 {
                 break;
             }
+
         }
         KeyGenerator {
             public_key1: public_key1,
             public_key2: public_key2,
             private_key: private_key,
+            q: q,
+            p: p,
+            totn: totn,
         }
     }
 

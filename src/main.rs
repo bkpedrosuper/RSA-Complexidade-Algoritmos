@@ -5,13 +5,15 @@ extern crate rsa;
 use rsa::key_generator;
 use rsa::encoder;
 use std::fs;
+mod breaker;
+use std::time::SystemTime;
 
 fn main() {
     // let args: Vec<String> = env::args().collect();
 
     let contents = fs::read_to_string("example.in").expect("Something went wrong while opening the file");
 
-    let key_generator = key_generator::KeyGenerator::new(256);
+    let key_generator = key_generator::KeyGenerator::new(100);
 
     let enc = encoder::encrypt(&contents, key_generator.get_public_key2(), key_generator.get_public_key1());
     
@@ -21,5 +23,16 @@ fn main() {
     println!("{}", dec);
 
     fs::write("decrypted", dec).expect("Something went wrong while opening the file");
+
+    let start = SystemTime::now();
+
+    match breaker::pollar_rho_2(key_generator.get_public_key1()) {
+        None => println!("It was not possible to break the key"),
+        Some((p, q)) => println!("q = {}\np = {}", q, p),
+    }
+
+    let end = SystemTime::now();
+
+    println!("Breaking key time: {:?}", end.duration_since(start).unwrap())
 
 }
