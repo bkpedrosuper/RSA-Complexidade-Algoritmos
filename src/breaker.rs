@@ -42,7 +42,7 @@ pub fn pollar_rho_1(pub_key: &Integer) -> Option<(Integer, Integer)> {
     Some((Integer::from(pub_key/&d), d))
 }
 
-pub fn pollar_rho_2(pub_key: &Integer) -> Option<(Integer, Integer)> {
+pub fn pollar_rho_2(pub_key: &Integer) -> (Integer, Integer) {
     println!("Breaking the key: {}", pub_key);
 
     let mut i = Integer::from(1);
@@ -57,7 +57,7 @@ pub fn pollar_rho_2(pub_key: &Integer) -> Option<(Integer, Integer)> {
         x %= pub_key;
         d = Integer::from(&x - &y).abs().gcd(pub_key);
         if &d != &Integer::from(1) && &d != pub_key {
-            return Some((Integer::from(pub_key/&d), d));
+            return (Integer::from(pub_key/&d), d);
         }
         if i == k {
             y = x.clone();

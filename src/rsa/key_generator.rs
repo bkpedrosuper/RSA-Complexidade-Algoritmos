@@ -25,14 +25,11 @@ impl KeyGenerator {
             p = prime_generator::get_prime(size/2);
             q = prime_generator::get_prime(size/2);
             totn = Integer::from(&p - 1) * Integer::from(&q - 1);
-            println!("{}\n{}", p, q);
             public_key1 = Integer::from(&p * &q);
             
             public_key2 = prime_generator::get_prime_max(&public_key1);
 
-            let res = utils::inv_mod(&public_key2, &totn);
-
-            match res {
+            match utils::inv_mod(&public_key2, &totn) {
                 Some(n) => private_key = n,
                 None => continue 'outer,
             }
