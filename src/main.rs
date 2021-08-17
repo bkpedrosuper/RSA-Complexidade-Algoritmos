@@ -9,7 +9,7 @@ use std::fs;
 fn main() {
     // let args: Vec<String> = env::args().collect();
 
-    let contents = fs::read_to_string("in").expect("Something went wrong while opening the file");
+    let contents = fs::read_to_string("example.in").expect("Something went wrong while opening the file");
 
     let key_generator = key_generator::KeyGenerator::new(256);
 
