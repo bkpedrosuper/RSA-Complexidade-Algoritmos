@@ -18,6 +18,10 @@ fn main() {
 
     match matches.subcommand_matches("bench") {
         Some(matches) => {
+            if matches.occurrences_of("encryption") != 0 {
+                benchmark::encryption();
+                exit(0);
+            }
             let mut times = 10;
             if matches.occurrences_of("times") != 0 {
                 times = matches.value_of("times").expect("times must have a valid value")
@@ -50,7 +54,6 @@ fn config() -> App<'static, 'static> {
     App::new("RSA")
         .version("0.1")
         .about("RSA encoder and decoder")
-        
         .arg(Arg::with_name("key_size")
             .short("k")
             .long("key_size")
@@ -64,7 +67,11 @@ fn config() -> App<'static, 'static> {
                             .long("times")
                             .help("Number of times to run the benchmark")
                             .default_value("10")
-                            .help("How much times to run")))
+                            .help("How much times to run"))
+                        .arg(Arg::with_name("encryption")
+                            .short("e")
+                            .long("encryption")
+                            .help("Benchmark only the encryption process")))
 }
 
 fn run(key_size: u32, _break: bool) {

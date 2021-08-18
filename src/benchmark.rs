@@ -12,7 +12,7 @@ pub fn benchmark(times: u32) -> Result<(), Box<dyn Error>> {
     
     let input = fs::read_to_string("example.in")?;
     
-    for i in (32..100).step_by(2) {
+    for i in (32..110).step_by(2) {
         run_times(&input, i, times)?;
     }
     Ok(())
@@ -30,10 +30,6 @@ pub fn run_times(input: &String, key_size: u32, times: u32) -> Result<(), Box<dy
     let mut decryption_file = file_options.open(format!("./output/decryption/{}", key_size))?;
     let mut generation_file = file_options.open(format!("./output/generation/{}", key_size))?;
     let mut breaking_file = file_options.open(format!("./output/breaking/{}", key_size))?;
-
-    encryption_file.write_all(b"fodase")?;
-    encryption_file.write_all(b"fodase")?;
-    encryption_file.write_all(b"fodase")?;
 
     for _ in 0..times {
 
@@ -105,4 +101,41 @@ fn prepare_paths() {
     for entry in fs::read_dir("./output/breaking").unwrap() {
         fs::remove_file(entry.unwrap().path()).expect("error deleting one file");
     }
+}
+
+pub fn encryption() {
+
+    let input = fs::read_to_string("example.in").expect("Error opening the file");
+
+    fs::create_dir_all("./output/only_encryption").expect("Unable to create the path");
+
+    for entry in fs::read_dir("./output/only_encryption").unwrap() {
+        fs::remove_file(entry.unwrap().path()).expect("error deleting one file");
+    }
+
+    for key_size in (64..1025).step_by(64) {
+    
+        let mut encryption_file = OpenOptions::new()
+                                    .create(true)
+                                    .append(true)
+                                    .open(format!("./output/only_encryption/{}", key_size)).expect("Error while opening the file");
+        
+        println!("------------- Key Size {} ------------", key_size);
+        for _ in 0..10 {
+    
+            let keys = key_generator::KeyGenerator::new(key_size);
+            
+            let start = SystemTime::now();
+            let enc = encoder::encrypt(&input, keys.get_public_key2(), keys.get_public_key1());
+            let end = SystemTime::now();
+            
+            encryption_file.write_all(format!("{}\n", end.duration_since(start).unwrap().as_millis()).as_bytes()).expect("Erro ao escrever no arquivo");
+            
+            let dec = encoder::decrypt(&enc, keys.get_private_key(), keys.get_public_key1());
+                                        
+            assert_eq!(*input, dec);
+
+        }
+    }
+
 }

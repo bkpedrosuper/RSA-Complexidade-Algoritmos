@@ -43,7 +43,7 @@ pub fn pollar_rho_1(pub_key: &Integer) -> Option<(Integer, Integer)> {
 }
 
 pub fn pollar_rho_2(pub_key: &Integer) -> (Integer, Integer) {
-    println!("Breaking the key: {}", pub_key);
+    // println!("Breaking the key: {}", pub_key);
 
     let mut i = Integer::from(1);
     let mut k = Integer::from(2);
