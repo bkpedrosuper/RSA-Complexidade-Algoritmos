@@ -1,35 +1,49 @@
 # RSA-Complexidade-Algoritmos
 
-O projeto pode ser executado usando o comando:
+Implementa um algorítmo de RSA que usa miller-rabin para geração dos primos e algorítmo de Euclides estendido para a geranção da chave privada.
 
-```shell
-cargo run
-```
+### Código
 
-para ver mais sobre os comandos possíveis
-```
-cargo run help
-```
+* src/rsa/utils.rs
 
-Para executar os testes de tempo de quebra da chave:
+    Estão os algorítmos de exponenciação modular rápida, inverso modular e Euclides estendido.
 
-```shell
-cargo run break [key_size = 100]
-```
+* src/rsa/prime_generator.rs
 
-Para executar os testes:
-```shell
-cargo test
-```
+    Algorítmos para geração dos primos.
 
+* src/rsa/key_generator.rs
 
-assim ó, tu pode escolher quantas vezes quer rodar tudo e se quer medir tempo ou não
-pode escolher o arquivo de saída tbm
-tudo é:
-    cria chaves
-    encripta
-    salva os dados encryptados
-    desemcrypta
-    se quiser pode quebrar, e vai medir tempo disso tbm
+    Criação das chaves do RSA.
 
+* src/rsa/encoder.rs
+
+    Criptografia e descriptografia do arquivo de entrada.
+
+* src/breaker.rs
+
+    Algorítmo de pollar-rho de fatoração, para quebrar a chave RSA. 
+
+## Execução
+
+* O projeto pode ser executado usando o comando:
+    ```shell
+    cargo run
+    ```
+
+* Para ver mais sobre os comandos possíveis
+    ```
+    cargo run help
+    ```
+
+* Para executar os testes de tempo de quebra da chave:
+
+    ```shell
+    cargo run break
+    ```
+
+* Para executar os testes:
+    ```shell
+    cargo test
+    ```
 
