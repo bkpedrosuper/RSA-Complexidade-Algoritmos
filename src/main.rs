@@ -92,7 +92,7 @@ fn run(key_size: u32, _break: bool) {
     
     fs::write("encrypted", enc.clone()).expect("Something went wrong while");
 
-    // println!("encrypted message:\n {}", enc);
+    println!("encrypted message:\n {}", enc);
 
     let start = SystemTime::now();
     let dec = encoder::decrypt(&enc, keys.get_private_key(), keys.get_public_key1());
